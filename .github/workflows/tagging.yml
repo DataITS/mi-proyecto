@@ -30,7 +30,7 @@ jobs:
         id: tag
         run: |
           # Generar un nuevo tag basado en la fecha y hora
-          TAG_NAME="v$(date + '%Y%m%d%H%M%S')"
+          TAG_NAME="v$(date +'%Y%m%d%H%M%S')"
           git tag $TAG_NAME
           git push origin $TAG_NAME
 
