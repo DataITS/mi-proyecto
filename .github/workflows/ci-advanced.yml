@@ -7,24 +7,29 @@ on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
     branches: [ "master" ]
+    paths:
+      - .github/workflows/ci-advanced.yml
   pull_request:
     branches: [ "master" ]
+    paths:
+      - .github/workflows/ci-advanced.yml
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   # Definición de los jobs
+# Definición de los jobs
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
       # Checkout del código del repositorio
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       # Configurar Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
 
@@ -36,16 +41,11 @@ jobs:
       - name: Run tests
         run: npm test
 
-      # Construir el proyecto
-      - name: Build project
-        run: npm run build
-
   notify:
-    needs: build
     runs-on: ubuntu-latest
+    needs: build-and-test
 
     steps:
-      # Notificar en Slack
       - name: Notify Slack
         uses: 8398a7/action-slack@v3
         with:
