@@ -1,0 +1,47 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Monitoreo Workflow
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # # Primer paso:Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Segundo paso: Crear un archivo vacio .nojekyll para deshabilitar Jekyll en Github Pages
+      - name: Run tests
+        run: |
+          echo "Running tests"
+          #Simulacion de pruebas
+          echo "Tests completados correctamente"
+
+      - name: Exports metrics
+        run: |
+          echo "# TYPE build_duration_seconds gauge" >> metrics.prom
+          echo "# HELP build_duration_seconds Duration del build en segundos" >> metrics.prom
+          echo "build_duration_seconds $(($SECONDS))" >> metrics.prom
+        env:
+          SECONDS: ${{ github.run_duration}}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-prom
+          path: metrics.prom
