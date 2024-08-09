@@ -37,7 +37,7 @@ jobs:
       - name: Run Security audit
         run: |
            echo "Running security audit"
-           trivy fs --exit-code 1 --severity HIGH,CRITICAL .
+           trivy fs --exit-code 1 --severity HIGH,CRITICAL . > ./audit-logs/trivy-results.txt
            echo "Audit complete."
 
       - name: Storage logs
