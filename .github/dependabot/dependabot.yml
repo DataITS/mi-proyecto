@@ -1,0 +1,7 @@
+version: 2
+updates:
+  - package-ecosystem: "npm" # Cambia a tu ecosistema de paquetes (ejemplo: "npm", "pip", "maven", etc.)
+    directory: "/" # El directorio donde se encuentra tu archivo de dependencias
+    schedule:
+      interval: "daily" # Frecuencia de las verificaciones (opciones: daily, weekly, monthly)
+    open-pull-requests-limit: 10 # Número máximo de pull requests abiertas por Dependabot
